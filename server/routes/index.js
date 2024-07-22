@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const mysql = require('mysql2');
-const schedule = require('node-schedule');
+const cron = require('node-cron');
 
 // MySQL 연결 설정
 const connection = mysql.createConnection({
@@ -20,18 +20,6 @@ connection.connect((err) => {
   console.log('데이터베이스 연결 성공');
 });
 
-// 데이터 삭제 작업 스케줄링
-const job = schedule.scheduleJob('0 0 * * *', () => {
-  const deleteQuery = 'DELETE FROM list WHERE time < NOW() - INTERVAL 1 DAY';
-
-  connection.query(deleteQuery, (err, results) => {
-    if (err) {
-      console.log('데이터 삭제 실패: ', err);
-    } else {
-      console.log('자정에 모든 Todo 항목이 삭제되었습니다.');
-    }
-  });
-});
 
 // 기본 루트 라우트 설정
 router.get('/', (req, res) => {
@@ -76,6 +64,36 @@ router.delete('/delete/:no', (req, res) => {
       return res.status(500).send('데이터 삭제 실패');
     }
     res.status(200).send('데이터 삭제 성공');
+  });
+});
+
+
+// // 1분 후에 만료된 데이터 삭제
+// setTimeout(function() {
+//   console.log('Running a job 1 minute from now');
+
+//   const deleteQuery = 'DELETE FROM list WHERE DATE(time) < CURDATE()';
+//   connection.query(deleteQuery, (err, results) => {
+//     if (err) {
+//       console.error('데이터 삭제 실패:', err);
+//       return;
+//     }
+//     console.log(`Deleted ${results.affectedRows} row(s)`);
+//   });
+// }, 60000); // 60000ms = 1분
+
+
+// 매일 자정에 전날 데이터 삭제
+cron.schedule('0 0 * * *', function() {
+  console.log('Running a job at 00:00 at Korea/Seoul timezone');
+
+  const deleteQuery = 'DELETE FROM list WHERE DATE(time) < CURDATE()';
+  connection.query(deleteQuery, (err, results) => {
+    if (err)  {
+      console.error('데이터 삭제 실패:', err);
+      return;
+    }
+    console.log(`Deleted ${results.affectedRows} row(s)`);
   });
 });
 

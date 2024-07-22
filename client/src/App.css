@@ -3,5 +3,24 @@
 }
 
 .list {
-  border:1px solid #c2c2c2;
+  height:75px;
+  border:1px solid #c7c7c7;
+  border-radius: 15px;
+  padding: 10px;
+}
+
+.bg {
+  background-color:white;
+}
+
+.left {
+  float:left;
+}
+
+.right {
+  float:right;
+}
+
+.btn {
+  float:right;
 }
