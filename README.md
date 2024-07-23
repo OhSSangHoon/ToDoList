@@ -2,15 +2,15 @@
 React, node를 이용한 To Do List
 
 
-<React 생성>
+# React 생성
 npx create-react-app filename
 
 
-<bootstrap>
+# bootstrap 설치
 npm install react-bootstrap bootstrap
 
 
-<node js 생성>
+# node js 생성
 1. express 생성기 설치
 npm install -g express-generator
 
@@ -23,7 +23,7 @@ cd filename	#생성한 express 애플리케이션폴더로 이동
 npm install		#설치
 
 
-<사용 스택>
+# 사용 스택
 1. React
 2. bootstrap
 3. node js
@@ -31,7 +31,7 @@ npm install		#설치
 
 
 
-<마우스 드래그로 게시글 순서 변경>
+# 마우스 드래그로 게시글 순서 변경
 1. npm install react-beautiful-dnd 패키지 설치
 
 
